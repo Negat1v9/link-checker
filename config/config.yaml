@@ -1,0 +1,3 @@
+serverCfg:
+  ListedAddr: ":8008"
+  DefaultWriteTimeOut: 15
