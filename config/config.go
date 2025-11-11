@@ -9,12 +9,22 @@ import (
 )
 
 type Config struct {
+	Env string
 	ServerCfg
+	LinkStoreCfg
 }
 
 type ServerCfg struct {
 	ListedAddr          string
 	DefaultWriteTimeOut time.Duration // seconds
+}
+
+type LinkStoreCfg struct {
+	WalFilePath               string
+	WalFileBufferSize         int
+	WalFileWriteDuration      int // seconds
+	LinkStoreBackup           string
+	LinkStorageBackupDuration int // seconds
 }
 
 func LoadConfig(filename string) (*viper.Viper, error) {
