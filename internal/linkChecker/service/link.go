@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 	"sync"
@@ -51,6 +52,53 @@ func (s *LinkCheckerService) CheckLinks(ctx context.Context, links []string) *li
 		LinksNum: s.linkStore.CreateLinksGroup(links), // save link group
 	}
 
+}
+
+func (s *LinkCheckerService) CreateLinksGroupPdfReport(ctx context.Context, groups []int) (PdfFileWriter, error) {
+	links := make([]string, 0)
+	// recieve all links from all groups
+	for _, groupID := range groups {
+		links = append(links, s.linkStore.GetLinksByGroup(groupID)...)
+	}
+
+	linksResult := make(map[string]linkmodel.LinkStatus, len(links))
+	wg := sync.WaitGroup{}
+	mu := sync.RWMutex{}
+	if len(links) == 0 {
+		return nil, fmt.Errorf("not found links group")
+	}
+	pdfFile := s.createPDFReport()
+	for i, link := range links {
+		wg.Add(1)
+		go func(link string) {
+			// check if has dublicate in links array
+			mu.RLock()
+			if _, ok := linksResult[link]; ok {
+				// dublicate -> stop check status
+				mu.RUnlock()
+				return
+			}
+			mu.RUnlock()
+			// recieve state of link
+			isAvailable := s.checkUrl(ctx, link)
+			mu.Lock()
+			// set status
+			if isAvailable {
+				linksResult[link] = linkmodel.LinkStatusAvailable
+			} else {
+				linksResult[link] = linkmodel.LinkStatusNotAvailable
+			}
+			// writer in report row with link state with mutex lock
+			s.addReportRowLinkState(pdfFile, i+1, link, linksResult[link])
+			mu.Unlock()
+			wg.Done()
+		}(link)
+	}
+
+	// wait get all links state
+	wg.Wait()
+
+	return pdfFile, nil
 }
 
 // return true only if request on url return status < 400

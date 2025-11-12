@@ -2,7 +2,10 @@ module github.com/Negat1v9/link-checker
 
 go 1.25.1
 
-require github.com/spf13/viper v1.21.0
+require (
+	github.com/phpdave11/gofpdf v1.4.3
+	github.com/spf13/viper v1.21.0
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect

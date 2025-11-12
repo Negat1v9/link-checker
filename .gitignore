@@ -1,5 +1,6 @@
 /main
 /backup
+/report.pdf
 .vscode/*
 !.vscode/extensions.json
 .idea

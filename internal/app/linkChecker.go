@@ -40,7 +40,7 @@ func (a *App) Run(shutDown context.Context) {
 
 	linkService := service.NewLinkService(linkStore)
 
-	server.MapHandlers(linkService)
+	server.MapHandlers(logger, linkService)
 
 	logger.Infof("run app")
 	go func() {
