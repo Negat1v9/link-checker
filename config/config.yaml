@@ -1,0 +1,11 @@
+Env: "local"
+serverCfg:
+  ListedAddr: ":8008"
+  DefaultWriteTimeOut: 15
+
+linkStoreCfg:
+  WalFilePath: "./backup/links.log"
+  WalFileBufferSize: 50
+  WalFileWriteDuration: 60
+  LinkStoreBackup: "./backup/links.json"
+  LinkStorageBackupDuration: 1800
