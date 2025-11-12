@@ -10,7 +10,7 @@ HTTP server server written by **golang** The service checks resource link availa
 ### required version golang
 version >= 1.22 
 ### Service features
-- Automatic data saving when the service is stopped.
+- Automatic data saving when the service is stopped (writing WAL file).
 - Checking multiple links per request, completely asynchronous.
 - PDF file generation
 ### Instructions
@@ -76,3 +76,5 @@ receive pdf file report and move it `./report.pdf` file
 - [ ] Create tests
 
 ## LiCENSE
+
+### MIT

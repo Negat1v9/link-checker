@@ -1,11 +1,11 @@
 Env: "local"
 serverCfg:
-  ListedAddr: ":8008"
-  DefaultWriteTimeOut: 15
+  ListedAddr: ":8008" # listen HTPP port
+  DefaultWriteTimeOut: 15 # default write context timeout (seconds)
 
 linkStoreCfg:
-  WalFilePath: "./backup/links.log"
-  WalFileBufferSize: 50
-  WalFileWriteDuration: 60
-  LinkStoreBackup: "./backup/links.json"
-  LinkStorageBackupDuration: 1800
+  WalFilePath: "./backup/links.log" # path to WAL file
+  WalFileBufferSize: 50  # max number of elements on WAL batch
+  WalFileWriteDuration: 60 # timout for sync WAL file (sedonds)
+  LinkStoreBackup: "./backup/links.json" # path to backup file
+  LinkStorageBackupDuration: 1800 # timout for write backup file (sedonds)
