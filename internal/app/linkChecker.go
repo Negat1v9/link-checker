@@ -42,7 +42,7 @@ func (a *App) Run(shutDown context.Context) {
 
 	server.MapHandlers(logger, linkService)
 
-	logger.Infof("run app")
+	logger.Infof("run server on %s port", a.cfg.ServerCfg.ListedAddr)
 	go func() {
 		if err := server.Run(); err != nil {
 			logger.Warnf("http server is stopped: %v", err)
